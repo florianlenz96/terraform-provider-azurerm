@@ -1,13 +1,15 @@
 // Copyright IBM Corp. 2014, 2026
 // SPDX-License-Identifier: MPL-2.0
 
-package appservice
+package function_app_function_keys
 
 import (
 	"reflect"
 	"testing"
 )
 
+// The `listKeys` API returns a response shape which differs from its API Specification, so the response is parsed
+// manually. This test covers both the documented and the observed shapes, which acceptance tests can't guarantee.
 func TestParseFunctionAppFunctionKeys(t *testing.T) {
 	cases := []struct {
 		name     string

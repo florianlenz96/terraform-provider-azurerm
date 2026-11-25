@@ -1,7 +1,7 @@
 // Copyright IBM Corp. 2014, 2026
 // SPDX-License-Identifier: MPL-2.0
 
-package appservice
+package function_app_function_keys
 
 import (
 	"context"
@@ -15,26 +15,26 @@ import (
 	"github.com/hashicorp/terraform-provider-azurerm/internal/tf/pluginsdk"
 )
 
-type FunctionAppFunctionKeysDataSource struct{}
+type DataSource struct{}
 
-var _ sdk.DataSource = FunctionAppFunctionKeysDataSource{}
+var _ sdk.DataSource = DataSource{}
 
-type FunctionAppFunctionKeysDataSourceModel struct {
+type DataSourceModel struct {
 	FunctionAppID string            `tfschema:"function_app_id"`
 	FunctionName  string            `tfschema:"function_name"`
 	DefaultKey    string            `tfschema:"default_key"`
 	Keys          map[string]string `tfschema:"keys"`
 }
 
-func (d FunctionAppFunctionKeysDataSource) ResourceType() string {
+func (d DataSource) ResourceType() string {
 	return "azurerm_function_app_function_keys"
 }
 
-func (d FunctionAppFunctionKeysDataSource) ModelObject() any {
-	return &FunctionAppFunctionKeysDataSourceModel{}
+func (d DataSource) ModelObject() any {
+	return &DataSourceModel{}
 }
 
-func (d FunctionAppFunctionKeysDataSource) Arguments() map[string]*pluginsdk.Schema {
+func (d DataSource) Arguments() map[string]*pluginsdk.Schema {
 	return map[string]*pluginsdk.Schema{
 		"function_app_id": {
 			Type:         pluginsdk.TypeString,
@@ -52,7 +52,7 @@ func (d FunctionAppFunctionKeysDataSource) Arguments() map[string]*pluginsdk.Sch
 	}
 }
 
-func (d FunctionAppFunctionKeysDataSource) Attributes() map[string]*pluginsdk.Schema {
+func (d DataSource) Attributes() map[string]*pluginsdk.Schema {
 	return map[string]*pluginsdk.Schema{
 		"default_key": {
 			Type:        pluginsdk.TypeString,
@@ -73,13 +73,13 @@ func (d FunctionAppFunctionKeysDataSource) Attributes() map[string]*pluginsdk.Sc
 	}
 }
 
-func (d FunctionAppFunctionKeysDataSource) Read() sdk.ResourceFunc {
+func (d DataSource) Read() sdk.ResourceFunc {
 	return sdk.ResourceFunc{
 		Timeout: 5 * time.Minute,
 		Func: func(ctx context.Context, metadata sdk.ResourceMetaData) error {
 			client := metadata.Client.AppService.WebAppsClient
 
-			var state FunctionAppFunctionKeysDataSourceModel
+			var state DataSourceModel
 			if err := metadata.Decode(&state); err != nil {
 				return fmt.Errorf("decoding: %+v", err)
 			}

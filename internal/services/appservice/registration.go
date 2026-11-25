@@ -14,6 +14,7 @@ import (
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/function_app_active_slot"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/function_app_flex_consumption"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/function_app_function"
+	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/function_app_function_keys"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/function_app_hybrid_connection"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/linux_function_app"
 	"github.com/hashicorp/terraform-provider-azurerm/internal/services/appservice/resources/linux_function_app_slot"
@@ -55,6 +56,7 @@ func (r Registration) DataSources() []sdk.DataSource {
 	return []sdk.DataSource{
 		app_service_environment_v3.DataSource{},
 		source_control_token.DataSource{},
+		function_app_function_keys.DataSource{},
 		linux_function_app.DataSource{},
 		linux_web_app.DataSource{},
 		service_plan.DataSource{},
@@ -106,7 +108,9 @@ func (r Registration) FrameworkDataSources() []sdk.FrameworkWrappedDataSource {
 }
 
 func (r Registration) EphemeralResources() []func() ephemeral.EphemeralResource {
-	return []func() ephemeral.EphemeralResource{}
+	return []func() ephemeral.EphemeralResource{
+		function_app_function_keys.NewFunctionAppFunctionKeysEphemeralResource,
+	}
 }
 
 func (r Registration) ListResources() []sdk.FrameworkListWrappedResource {
